@@ -1,0 +1,28 @@
+
+
+
+
+
+entity Book{
+	tilte String
+    des String
+    image ImageBlob
+    age Instant
+    cv AnyBlob
+}
+
+entity TypeBook{
+	name String
+}
+
+relationship ManyToMany{
+	Book{typeBook} to TypeBook{book}
+}
+
+entity Author{
+    name String 
+}
+
+relationship OneToMany{
+	Author{book} to Book
+}
