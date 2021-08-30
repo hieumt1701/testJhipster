@@ -37,6 +37,8 @@
     "authenticationType": "jwt",
     "serviceDiscoveryType": false,
     "enableHibernateCache": true,
-    "reactive": false
+    "reactive": false,
+    "entities": ["Book", "TypeBook", "Author", "Person"],
+    "lastLiquibaseTimestamp": 1629534443000
   }
 }

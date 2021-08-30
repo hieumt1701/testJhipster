@@ -1,0 +1,25 @@
+{
+  "demoClientApp": {
+    "typeBook": {
+      "home": {
+        "title": "Type Books",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Type Book",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Type Book",
+        "notFound": "No Type Books found"
+      },
+      "created": "Một Type Book mới được tạo với định danh {{ param }}",
+      "updated": "Một Type Book cập nhật với định danh {{ param }}",
+      "deleted": "Một Type Book đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Type Book {{ id }}?"
+      },
+      "detail": {
+        "title": "Type Book"
+      },
+      "id": "ID",
+      "name": "Name",
+      "book": "Book"
+    }
+  }
+}

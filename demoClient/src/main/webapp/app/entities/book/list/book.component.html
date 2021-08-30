@@ -1,0 +1,102 @@
+<div>
+  <h2 id="page-heading" data-cy="BookHeading">
+    <span jhiTranslate="demoClientApp.book.home.title">Books</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="demoClientApp.book.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="demoClientApp.book.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-book"
+        [routerLink]="['/book/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="demoClientApp.book.home.createLabel"> Create a new Book </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="books?.length === 0">
+    <span jhiTranslate="demoClientApp.book.home.notFound">No books found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="books && books.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="demoClientApp.book.tilte">Tilte</span></th>
+          <th scope="col"><span jhiTranslate="demoClientApp.book.des">Des</span></th>
+          <th scope="col"><span jhiTranslate="demoClientApp.book.image">Image</span></th>
+          <th scope="col"><span jhiTranslate="demoClientApp.book.dob">Dob</span></th>
+          <th scope="col"><span jhiTranslate="demoClientApp.book.cv">Cv</span></th>
+          <th scope="col"><span jhiTranslate="demoClientApp.book.typeBook">Type Book</span></th>
+          <th scope="col"><span jhiTranslate="demoClientApp.book.author">Author</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of books; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/book', book.id, 'view']">{{ book.id }}</a>
+          </td>
+          <td>{{ book.tilte }}</td>
+          <td>{{ book.des }}</td>
+          <td>
+            <a *ngIf="book.image" (click)="openFile(book.image, book.imageContentType)">
+              <img [src]="'data:' + book.imageContentType + ';base64,' + book.image" style="max-height: 30px" alt="book image" />
+            </a>
+            <span *ngIf="book.image">{{ book.imageContentType }}, {{ byteSize(book.image) }}</span>
+          </td>
+          <td>{{ book.dob | formatMediumDatetime }}</td>
+          <td>
+            <a *ngIf="book.cv" (click)="openFile(book.cv, book.cvContentType)" jhiTranslate="entity.action.open">open</a>
+            <span *ngIf="book.cv">{{ book.cvContentType }}, {{ byteSize(book.cv) }}</span>
+          </td>
+          <td>
+            <span *ngFor="let typeBook of book.typeBooks; let last = last">
+              <a class="form-control-static" [routerLink]="['/type-book', typeBook.id, 'view']">{{ typeBook.id }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+          </td>
+          <td>
+            <div *ngIf="book.author">
+              <a [routerLink]="['/author', book.author?.id, 'view']">{{ book.author?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/book', book.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/book', book.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(book)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
