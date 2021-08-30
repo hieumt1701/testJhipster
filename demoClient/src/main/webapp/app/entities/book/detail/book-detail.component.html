@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="book">
+      <h2 data-cy="bookDetailsHeading"><span jhiTranslate="demoClientApp.book.detail.title">Book</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ book.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="demoClientApp.book.tilte">Tilte</span></dt>
+        <dd>
+          <span>{{ book.tilte }}</span>
+        </dd>
+        <dt><span jhiTranslate="demoClientApp.book.des">Des</span></dt>
+        <dd>
+          <span>{{ book.des }}</span>
+        </dd>
+        <dt><span jhiTranslate="demoClientApp.book.image">Image</span></dt>
+        <dd>
+          <div *ngIf="book.image">
+            <a (click)="openFile(book.image, book.imageContentType)">
+              <img [src]="'data:' + book.imageContentType + ';base64,' + book.image" style="max-width: 100%" alt="book image" />
+            </a>
+            {{ book.imageContentType }}, {{ byteSize(book.image) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="demoClientApp.book.dob">Dob</span></dt>
+        <dd>
+          <span>{{ book.dob | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="demoClientApp.book.cv">Cv</span></dt>
+        <dd>
+          <div *ngIf="book.cv">
+            <a (click)="openFile(book.cv, book.cvContentType)" jhiTranslate="entity.action.open">open</a>
+            {{ book.cvContentType }}, {{ byteSize(book.cv) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="demoClientApp.book.typeBook">Type Book</span></dt>
+        <dd>
+          <span *ngFor="let typeBook of book.typeBooks; let last = last">
+            <a [routerLink]="['/type-book', typeBook?.id, 'view']">{{ typeBook.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="demoClientApp.book.author">Author</span></dt>
+        <dd>
+          <div *ngIf="book.author">
+            <a [routerLink]="['/author', book.author?.id, 'view']">{{ book.author?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/book', book.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

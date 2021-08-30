@@ -1,0 +1,25 @@
+{
+  "demoClientApp": {
+    "typeBook": {
+      "home": {
+        "title": "Type Books",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Type Book",
+        "createOrEditLabel": "Create or edit a Type Book",
+        "notFound": "No Type Books found"
+      },
+      "created": "A new Type Book is created with identifier {{ param }}",
+      "updated": "A Type Book is updated with identifier {{ param }}",
+      "deleted": "A Type Book is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Type Book {{ id }}?"
+      },
+      "detail": {
+        "title": "Type Book"
+      },
+      "id": "ID",
+      "name": "Name",
+      "book": "Book"
+    }
+  }
+}

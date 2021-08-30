@@ -1,0 +1,147 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-book-heading" data-cy="BookCreateUpdateHeading" jhiTranslate="backendJhipsterApp.book.home.createOrEditLabel">
+        Create or edit a Book
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="backendJhipsterApp.book.tilte" for="field_tilte">Tilte</label>
+          <input type="text" class="form-control" name="tilte" id="field_tilte" data-cy="tilte" formControlName="tilte" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="backendJhipsterApp.book.des" for="field_des">Des</label>
+          <input type="text" class="form-control" name="des" id="field_des" data-cy="des" formControlName="des" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="backendJhipsterApp.book.image" for="field_image">Image</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('imageContentType')!.value + ';base64,' + editForm.get('image')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('image')!.value"
+              alt="book image"
+            />
+            <div *ngIf="editForm.get('image')!.value" class="form-text text-danger clearfix">
+              <span class="pull-left">{{ editForm.get('imageContentType')!.value }}, {{ byteSize(editForm.get('image')!.value) }}</span>
+              <button
+                type="button"
+                (click)="clearInputImage('image', 'imageContentType', 'file_image')"
+                class="btn btn-secondary btn-xs pull-right"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_image"
+              data-cy="image"
+              (change)="setFileData($event, 'image', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="image" id="field_image" data-cy="image" formControlName="image" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="imageContentType"
+            id="field_imageContentType"
+            formControlName="imageContentType"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="backendJhipsterApp.book.dob" for="field_dob">Dob</label>
+          <div class="d-flex">
+            <input
+              id="field_dob"
+              data-cy="dob"
+              type="datetime-local"
+              class="form-control"
+              name="dob"
+              formControlName="dob"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="backendJhipsterApp.book.cv" for="field_cv">Cv</label>
+          <div>
+            <div *ngIf="editForm.get('cv')!.value" class="form-text text-danger clearfix">
+              <a
+                class="pull-left"
+                (click)="openFile(editForm.get('cv')!.value, editForm.get('cvContentType')!.value)"
+                jhiTranslate="entity.action.open"
+                >open</a
+              ><br />
+              <span class="pull-left">{{ editForm.get('cvContentType')!.value }}, {{ byteSize(editForm.get('cv')!.value) }}</span>
+              <button
+                type="button"
+                (click)="editForm.patchValue({ cv: null }); editForm.patchValue({ cvContentType: null })"
+                class="btn btn-secondary btn-xs pull-right"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input type="file" id="file_cv" data-cy="cv" (change)="setFileData($event, 'cv', false)" jhiTranslate="entity.action.addblob" />
+          </div>
+          <input type="hidden" class="form-control" name="cv" id="field_cv" data-cy="cv" formControlName="cv" />
+          <input type="hidden" class="form-control" name="cvContentType" id="field_cvContentType" formControlName="cvContentType" />
+        </div>
+
+        <div class="form-group">
+          <label jhiTranslate="backendJhipsterApp.book.typeBook" for="field_typeBooks">Type Book</label>
+          <select class="form-control" id="field_typeBooks" data-cy="typeBook" multiple name="typeBooks" formControlName="typeBooks">
+            <option
+              [ngValue]="getSelectedTypeBook(typeBookOption, editForm.get('typeBooks')!.value)"
+              *ngFor="let typeBookOption of typeBooksSharedCollection; trackBy: trackTypeBookById"
+            >
+              {{ typeBookOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="backendJhipsterApp.book.author" for="field_author">Author</label>
+          <select class="form-control" id="field_author" data-cy="author" name="author" formControlName="author">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="authorOption.id === editForm.get('author')!.value?.id ? editForm.get('author')!.value : authorOption"
+              *ngFor="let authorOption of authorsSharedCollection; trackBy: trackAuthorById"
+            >
+              {{ authorOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

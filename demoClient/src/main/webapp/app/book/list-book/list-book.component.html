@@ -1,0 +1,10 @@
+<p>list-book works!</p>
+<ng-container *ngIf="listBook">
+  <ng-container *ngFor="let item of listBook">
+    <div class="card">
+      <i>{{ item.id }}</i>
+      <h1>{{ item.tilte }}</h1>
+      <a routerLink="/detail-book/{{ item.id }}">detail-book {{ item.tilte }}</a>
+    </div>
+  </ng-container>
+</ng-container>

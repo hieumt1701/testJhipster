@@ -1,0 +1,25 @@
+{
+  "demoClientApp": {
+    "person": {
+      "home": {
+        "title": "People",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Person",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Person",
+        "notFound": "No People found"
+      },
+      "created": "Một Person mới được tạo với định danh {{ param }}",
+      "updated": "Một Person cập nhật với định danh {{ param }}",
+      "deleted": "Một Person đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Person {{ id }}?"
+      },
+      "detail": {
+        "title": "Person"
+      },
+      "id": "ID",
+      "name": "Name",
+      "age": "Age"
+    }
+  }
+}
